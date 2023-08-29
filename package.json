@@ -1,0 +1,33 @@
+{
+    "name": "ecommerce-tcc-api",
+    "description": "",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "format:check": "prettier --check .",
+        "format:write": "prettier --write .",
+        "lint:check": "eslint",
+        "lint:fix": "eslint --fix"
+    },
+    "dependencies": {
+        "pg": "^8.11.3",
+        "pg-hstore": "^2.3.4",
+        "sequelize": "^6.32.1"
+    },
+    "devDependencies": {
+        "eslint": "^8.48.0",
+        "eslint-config-prettier": "^9.0.0",
+        "prettier": "^3.0.3"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DouglasAndre25/ecommerce-tcc-api.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/DouglasAndre25/ecommerce-tcc-api/issues"
+    },
+    "homepage": "https://github.com/DouglasAndre25/ecommerce-tcc-api#readme"
+}
