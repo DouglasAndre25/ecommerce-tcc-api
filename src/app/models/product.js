@@ -21,6 +21,22 @@ class Product extends Model {
 
         return this
     }
+
+    static associate(models) {
+        this.belongsToMany(models.User, {
+            through: models.ProductHistory,
+            onDelete: 'cascade',
+            onUpdate: 'cascade',
+            hook: true,
+        })
+
+        this.belongsToMany(models.Bag, {
+            through: models.ProductBag,
+            onDelete: 'cascade',
+            onUpdate: 'cascade',
+            hook: true,
+        })
+    }
 }
 
 module.exports = Product
