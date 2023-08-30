@@ -1,4 +1,10 @@
-INSERT INTO product ("name", "brand", "category", "price", "imgUrl", "saleQtd", "description")
+'use strict'
+
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+    async up(queryInterface, Sequelize) {
+        return queryInterface.sequelize.query(`
+    INSERT INTO product ("name", "brand", "category", "price", "imgUrl", "saleQtd", "description")
 VALUES
 ('Kid', 'Thompson-Johnson', 'female, summer, day', '199.04', 'https://placekitten.com/809/528', 19, 'Body civil single main practice water political.'),
 ('Chair', 'Perez, Ford and Kelly', 'female, summer, day', '51.09', 'https://dummyimage.com/799x973', 2, 'Type should base or. Go once almost bank.'),
@@ -10000,3 +10006,12 @@ VALUES
 ('Speak', 'Perez PLC', 'female, winter, night', '199.51', 'https://dummyimage.com/608x439', 490, 'Congress politics change message in all. Education citizen must plant. Thing network parent last.'),
 ('Everyone', 'Ramirez, Briggs and Andrews', 'female, winter, day', '45.95', 'https://picsum.photos/89/237', 19, 'You natural use. Piece shake effect. Investment process husband.'),
 ('Behind', 'Robinson-Hardin', 'unissex, spring, night', '64.45', 'https://placekitten.com/989/508', 129, 'Majority wrong alone. Idea affect such.');
+    `)
+    },
+
+    async down(queryInterface, Sequelize) {
+        return queryInterface.sequelize.query(`
+            DELETE FROM "product"
+        `)
+    },
+}
