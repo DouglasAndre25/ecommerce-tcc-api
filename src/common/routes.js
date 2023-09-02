@@ -10,7 +10,7 @@ module.exports = {
         {
             route: '/login',
             method: 'POST',
-            query: () => {},
+            query: userController.login,
         },
     ],
     privateRoutes: [],

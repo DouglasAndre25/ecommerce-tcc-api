@@ -26,6 +26,17 @@ const userValidation = yup.object({
         .required(messages.general.required),
 })
 
+const loginValidation = yup.object({
+    email: yup
+        .string(messages.general.invalidType)
+        .required(messages.general.required)
+        .email(messages.general.emailFormatInvalid),
+    password: yup
+        .string(messages.general.invalidType)
+        .required(messages.general.required),
+})
+
 module.exports = {
     userValidation,
+    loginValidation,
 }

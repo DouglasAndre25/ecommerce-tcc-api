@@ -1,6 +1,7 @@
-const { userValidation } = require('../../common/validations')
+const { userValidation, loginValidation } = require('../../common/validations')
+const { getUserExtraParams } = require('../helpers/user')
 const user = require('../models/user')
-const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
 
 const create = async (req, res, next) => {
     try {
@@ -30,16 +31,67 @@ const create = async (req, res, next) => {
             email: body.email,
             password: body.password,
         })
+        delete userResponse.dataValues.password
 
-        const token = jwt.sign(
-            { id: userResponse.id },
-            process.env.APP_SECRET,
-            {
-                expiresIn: process.env.APP_SECRET_EXPIRES,
-            }
+        const { token, recomendations } = await getUserExtraParams({
+            ...userResponse.dataValues,
+            ip: body.ip,
+        })
+
+        return res.status(201).send({
+            data: {
+                user: { ...userResponse.dataValues, recomendations },
+                token,
+            },
+        })
+    } catch (error) {
+        return next(error)
+    }
+}
+
+const login = async (req, res, next) => {
+    try {
+        const { body } = req
+        await loginValidation.validate(body)
+
+        const userResponse = await user.findOne({
+            where: { email: body.email },
+        })
+
+        if (!userResponse)
+            return next({
+                message: 'login.errors.accountNotFound',
+                path: 'email',
+                status: 401,
+            })
+
+        const passwordVerify = await bcrypt.compare(
+            body.password,
+            userResponse.password
         )
+        if (!passwordVerify)
+            return next({
+                message: 'login.errors.passwordNotMatch',
+                path: 'password',
+                status: 401,
+            })
 
-        return res.status(201).send({ data: { user: userResponse, token } })
+        const { token, recomendations } = await getUserExtraParams({
+            ...userResponse.dataValues,
+            ip: body.ip,
+        })
+
+        return res.send({
+            data: {
+                user: {
+                    id: userResponse.id,
+                    name: userResponse.name,
+                    email: userResponse.email,
+                    recomendations,
+                },
+                token,
+            },
+        })
     } catch (error) {
         return next(error)
     }
@@ -47,4 +99,5 @@ const create = async (req, res, next) => {
 
 module.exports = {
     create,
+    login,
 }
