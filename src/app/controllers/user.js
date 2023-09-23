@@ -85,7 +85,12 @@ const login = async (req, res, next) => {
             data: {
                 user: {
                     id: userResponse.id,
+                    cpf: userResponse.cpf,
                     name: userResponse.name,
+                    lastname: userResponse.lastname,
+                    gender: userResponse.gender,
+                    birthday: userResponse.birthday,
+                    conditionsTerms: userResponse.conditionsTerms,
                     email: userResponse.email,
                     recomendations,
                 },

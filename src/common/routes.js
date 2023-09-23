@@ -1,4 +1,5 @@
 const userController = require('../app/controllers/user')
+const productController = require('../app/controllers/product')
 
 module.exports = {
     publicRoutes: [
@@ -11,6 +12,11 @@ module.exports = {
             route: '/login',
             method: 'POST',
             query: userController.login,
+        },
+        {
+            route: '/products',
+            method: 'GET',
+            query: productController.getAll,
         },
     ],
     privateRoutes: [],
