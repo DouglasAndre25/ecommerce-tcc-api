@@ -42,20 +42,13 @@ class User extends Model {
     }
 
     static associate(models) {
-        this.hasOne(models.Address, {
+        this.belongsTo(models.Address, { foreignKey: 'user_id' })
+        this.hasMany(models.ProductHistory, {
             foreignKey: 'user_id',
             onDelete: 'cascade',
             onUpdate: 'cascade',
             hook: true,
         })
-
-        this.belongsToMany(models.Product, {
-            through: models.ProductHistory,
-            onDelete: 'cascade',
-            onUpdate: 'cascade',
-            hook: true,
-        })
-
         this.hasMany(models.Bag, {
             foreignKey: 'user_id',
             onDelete: 'cascade',

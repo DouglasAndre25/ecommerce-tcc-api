@@ -19,8 +19,8 @@ class Bag extends Model {
 
     static associate(models) {
         this.belongsTo(models.User, { foreignKey: 'user_id' })
-        this.belongsToMany(models.Product, {
-            through: models.ProductBag,
+        this.hasMany(models.ProductBag, {
+            foreignKey: 'bag_id',
             onDelete: 'cascade',
             onUpdate: 'cascade',
             hook: true,

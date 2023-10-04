@@ -1,5 +1,6 @@
 const userController = require('../app/controllers/user')
 const productController = require('../app/controllers/product')
+const productHistoryController = require('../app/controllers/productHistory')
 
 module.exports = {
     publicRoutes: [
@@ -19,5 +20,16 @@ module.exports = {
             query: productController.getAll,
         },
     ],
-    privateRoutes: [],
+    privateRoutes: [
+        {
+            route: '/product-history',
+            method: 'GET',
+            query: productHistoryController.getAllByUser,
+        },
+        {
+            route: '/product-history/:id',
+            method: 'DELETE',
+            query: productHistoryController.exclude,
+        },
+    ],
 }

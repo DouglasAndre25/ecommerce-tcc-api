@@ -23,15 +23,14 @@ class Product extends Model {
     }
 
     static associate(models) {
-        this.belongsToMany(models.User, {
-            through: models.ProductHistory,
+        this.hasMany(models.ProductHistory, {
+            foreignKey: 'product_id',
             onDelete: 'cascade',
             onUpdate: 'cascade',
             hook: true,
         })
-
-        this.belongsToMany(models.Bag, {
-            through: models.ProductBag,
+        this.hasMany(models.ProductBag, {
+            foreignKey: 'product_id',
             onDelete: 'cascade',
             onUpdate: 'cascade',
             hook: true,

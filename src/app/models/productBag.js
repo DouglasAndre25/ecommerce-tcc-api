@@ -15,6 +15,11 @@ class ProductBag extends Model {
 
         return this
     }
+
+    static associate(models) {
+        this.belongsTo(models.Bag, { foreignKey: 'bag_id' })
+        this.belongsTo(models.Product, { foreignKey: 'product_id' })
+    }
 }
 
 module.exports = ProductBag
