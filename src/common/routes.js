@@ -1,6 +1,8 @@
 const userController = require('../app/controllers/user')
 const productController = require('../app/controllers/product')
 const productHistoryController = require('../app/controllers/productHistory')
+const bagController = require('../app/controllers/bag')
+const productBag = require('../app/controllers/productBag')
 
 module.exports = {
     publicRoutes: [
@@ -30,6 +32,31 @@ module.exports = {
             route: '/product-history/:id',
             method: 'DELETE',
             query: productHistoryController.exclude,
+        },
+        {
+            route: '/product-history',
+            method: 'POST',
+            query: productHistoryController.create,
+        },
+        {
+            route: '/bag',
+            method: 'GET',
+            query: bagController.getOne,
+        },
+        {
+            route: '/bag/:id',
+            method: 'PUT',
+            query: bagController.update,
+        },
+        {
+            route: '/product-bag/:id',
+            method: 'PUT',
+            query: productBag.update,
+        },
+        {
+            route: '/product-bag/:id',
+            method: 'DELETE',
+            query: productBag.exclude,
         },
     ],
 }

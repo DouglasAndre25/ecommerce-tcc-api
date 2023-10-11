@@ -10,6 +10,18 @@ const create = async (req, res, next) => {
 
         const userExists = await user.findOne({
             where: { email: body.email },
+            attributes: [
+                'id',
+                'cpf',
+                'name',
+                'lastname',
+                'gender',
+                'birthday',
+                'phone',
+                'conditionsTerms',
+                'email',
+                'password',
+            ],
         })
 
         if (userExists) {
@@ -20,17 +32,33 @@ const create = async (req, res, next) => {
             })
         }
 
-        const userResponse = await user.create({
-            cpf: body.cpf,
-            name: body.name,
-            lastname: body.lastname,
-            gender: body.gender,
-            birthday: body.birthday,
-            phone: body.phone,
-            conditionsTerms: body.conditionsTerms,
-            email: body.email,
-            password: body.password,
-        })
+        const userResponse = await user.create(
+            {
+                cpf: body.cpf,
+                name: body.name,
+                lastname: body.lastname,
+                gender: body.gender,
+                birthday: body.birthday,
+                phone: body.phone,
+                conditionsTerms: body.conditionsTerms,
+                email: body.email,
+                password: body.password,
+            },
+            {
+                returning: [
+                    'id',
+                    'cpf',
+                    'name',
+                    'lastname',
+                    'gender',
+                    'birthday',
+                    'phone',
+                    'conditionsTerms',
+                    'email',
+                    'password',
+                ],
+            }
+        )
         delete userResponse.dataValues.password
 
         const { token, recomendations } = await getUserExtraParams({
@@ -38,9 +66,19 @@ const create = async (req, res, next) => {
             ip: body.ip,
         })
 
-        return res.status(201).send({
+        return res.send({
             data: {
-                user: { ...userResponse.dataValues, recomendations },
+                user: {
+                    id: userResponse.dataValues.id,
+                    cpf: userResponse.dataValues.cpf,
+                    name: userResponse.dataValues.name,
+                    lastname: userResponse.dataValues.lastname,
+                    gender: userResponse.dataValues.gender,
+                    birthday: userResponse.dataValues.birthday,
+                    conditionsTerms: userResponse.dataValues.conditionsTerms,
+                    email: userResponse.dataValues.email,
+                    recomendations,
+                },
                 token,
             },
         })
@@ -56,6 +94,18 @@ const login = async (req, res, next) => {
 
         const userResponse = await user.findOne({
             where: { email: body.email },
+            attributes: [
+                'id',
+                'cpf',
+                'name',
+                'lastname',
+                'gender',
+                'birthday',
+                'phone',
+                'conditionsTerms',
+                'email',
+                'password',
+            ],
         })
 
         if (!userResponse)
