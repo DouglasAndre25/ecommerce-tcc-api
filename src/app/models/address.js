@@ -25,12 +25,7 @@ class Address extends Model {
     }
 
     static associate(models) {
-        this.hasOne(models.User, {
-            foreignKey: 'user_id',
-            onDelete: 'cascade',
-            onUpdate: 'cascade',
-            hook: true,
-        })
+        this.belongsTo(models.User, { foreignKey: 'user_id' })
     }
 }
 

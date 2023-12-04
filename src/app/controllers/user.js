@@ -1,6 +1,7 @@
 const { userValidation, loginValidation } = require('../../common/validations')
 const { getUserExtraParams } = require('../helpers/user')
 const user = require('../models/user')
+const address = require('../models/address')
 const bcrypt = require('bcryptjs')
 
 const create = async (req, res, next) => {
@@ -78,6 +79,7 @@ const create = async (req, res, next) => {
                     conditionsTerms: userResponse.dataValues.conditionsTerms,
                     email: userResponse.dataValues.email,
                     recomendations,
+                    address: {},
                 },
                 token,
             },
@@ -106,6 +108,21 @@ const login = async (req, res, next) => {
                 'email',
                 'password',
             ],
+            include: {
+                model: address,
+                attributes: [
+                    'id',
+                    'postalCode',
+                    'street',
+                    'houseNumber',
+                    'complement',
+                    'referencePoint',
+                    'country',
+                    'state',
+                    'city',
+                    'nickname',
+                ],
+            },
         })
 
         if (!userResponse)
@@ -142,7 +159,9 @@ const login = async (req, res, next) => {
                     birthday: userResponse.birthday,
                     conditionsTerms: userResponse.conditionsTerms,
                     email: userResponse.email,
+                    phone: userResponse.phone,
                     recomendations,
+                    address: userResponse.Address,
                 },
                 token,
             },

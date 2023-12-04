@@ -1,3 +1,4 @@
+const Address = require('../models/address')
 const {
     getUserState,
     getDaytime,
@@ -12,7 +13,12 @@ module.exports.getUserExtraParams = async (userResponse) => {
     })
 
     let state
-    if (userResponse.ip) {
+    const address = await Address.findOne({
+        where: { user_id: userResponse.id },
+    })
+    if (address) {
+        state = address.state
+    } else if (userResponse.ip) {
         state = await getUserState(userResponse.ip)
     }
 
